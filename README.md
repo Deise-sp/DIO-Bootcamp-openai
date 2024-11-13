@@ -17,6 +17,7 @@ Instalação:
 Instale as bibliotecas necessárias usando pip:
 
 Bash
+
 pip install requests beautifulsoup4 openai langchain-openai
 
 
@@ -28,6 +29,7 @@ Atualize as variáveis azure_endpoint​​, api_key, api_versione deployment_na
 Execute o script:
 
 Bash
+
 python your_script_name.py
 
 
