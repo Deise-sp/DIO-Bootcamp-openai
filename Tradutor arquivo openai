@@ -1,0 +1,134 @@
+
+Open In Colab
+
+pip install requests beautifulsoup4 openai langchain-openai
+
+     
+Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (2.32.3)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.10/dist-packages (4.12.3)
+Requirement already satisfied: openai in /usr/local/lib/python3.10/dist-packages (1.54.3)
+Collecting langchain-openai
+  Downloading langchain_openai-0.2.8-py3-none-any.whl.metadata (2.6 kB)
+Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.10/dist-packages (from requests) (3.4.0)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests) (2.2.3)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests) (2024.8.30)
+Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.10/dist-packages (from beautifulsoup4) (2.6)
+Requirement already satisfied: anyio<5,>=3.5.0 in /usr/local/lib/python3.10/dist-packages (from openai) (3.7.1)
+Requirement already satisfied: distro<2,>=1.7.0 in /usr/local/lib/python3.10/dist-packages (from openai) (1.9.0)
+Requirement already satisfied: httpx<1,>=0.23.0 in /usr/local/lib/python3.10/dist-packages (from openai) (0.27.2)
+Requirement already satisfied: jiter<1,>=0.4.0 in /usr/local/lib/python3.10/dist-packages (from openai) (0.7.0)
+Requirement already satisfied: pydantic<3,>=1.9.0 in /usr/local/lib/python3.10/dist-packages (from openai) (2.9.2)
+Requirement already satisfied: sniffio in /usr/local/lib/python3.10/dist-packages (from openai) (1.3.1)
+Requirement already satisfied: tqdm>4 in /usr/local/lib/python3.10/dist-packages (from openai) (4.66.6)
+Requirement already satisfied: typing-extensions<5,>=4.11 in /usr/local/lib/python3.10/dist-packages (from openai) (4.12.2)
+Collecting langchain-core<0.4.0,>=0.3.17 (from langchain-openai)
+  Downloading langchain_core-0.3.18-py3-none-any.whl.metadata (6.3 kB)
+Collecting tiktoken<1,>=0.7 (from langchain-openai)
+  Downloading tiktoken-0.8.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+Requirement already satisfied: exceptiongroup in /usr/local/lib/python3.10/dist-packages (from anyio<5,>=3.5.0->openai) (1.2.2)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.10/dist-packages (from httpx<1,>=0.23.0->openai) (1.0.6)
+Requirement already satisfied: h11<0.15,>=0.13 in /usr/local/lib/python3.10/dist-packages (from httpcore==1.*->httpx<1,>=0.23.0->openai) (0.14.0)
+Requirement already satisfied: PyYAML>=5.3 in /usr/local/lib/python3.10/dist-packages (from langchain-core<0.4.0,>=0.3.17->langchain-openai) (6.0.2)
+Requirement already satisfied: jsonpatch<2.0,>=1.33 in /usr/local/lib/python3.10/dist-packages (from langchain-core<0.4.0,>=0.3.17->langchain-openai) (1.33)
+Requirement already satisfied: langsmith<0.2.0,>=0.1.125 in /usr/local/lib/python3.10/dist-packages (from langchain-core<0.4.0,>=0.3.17->langchain-openai) (0.1.142)
+Requirement already satisfied: packaging<25,>=23.2 in /usr/local/lib/python3.10/dist-packages (from langchain-core<0.4.0,>=0.3.17->langchain-openai) (24.2)
+Requirement already satisfied: tenacity!=8.4.0,<10.0.0,>=8.1.0 in /usr/local/lib/python3.10/dist-packages (from langchain-core<0.4.0,>=0.3.17->langchain-openai) (9.0.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.10/dist-packages (from pydantic<3,>=1.9.0->openai) (0.7.0)
+Requirement already satisfied: pydantic-core==2.23.4 in /usr/local/lib/python3.10/dist-packages (from pydantic<3,>=1.9.0->openai) (2.23.4)
+Requirement already satisfied: regex>=2022.1.18 in /usr/local/lib/python3.10/dist-packages (from tiktoken<1,>=0.7->langchain-openai) (2024.9.11)
+Requirement already satisfied: jsonpointer>=1.9 in /usr/local/lib/python3.10/dist-packages (from jsonpatch<2.0,>=1.33->langchain-core<0.4.0,>=0.3.17->langchain-openai) (3.0.0)
+Requirement already satisfied: orjson<4.0.0,>=3.9.14 in /usr/local/lib/python3.10/dist-packages (from langsmith<0.2.0,>=0.1.125->langchain-core<0.4.0,>=0.3.17->langchain-openai) (3.10.11)
+Requirement already satisfied: requests-toolbelt<2.0.0,>=1.0.0 in /usr/local/lib/python3.10/dist-packages (from langsmith<0.2.0,>=0.1.125->langchain-core<0.4.0,>=0.3.17->langchain-openai) (1.0.0)
+Downloading langchain_openai-0.2.8-py3-none-any.whl (50 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.4/50.4 kB 2.2 MB/s eta 0:00:00
+Downloading langchain_core-0.3.18-py3-none-any.whl (409 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 409.3/409.3 kB 10.2 MB/s eta 0:00:00
+Downloading tiktoken-0.8.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 33.0 MB/s eta 0:00:00
+Installing collected packages: tiktoken, langchain-core, langchain-openai
+  Attempting uninstall: langchain-core
+    Found existing installation: langchain-core 0.3.15
+    Uninstalling langchain-core-0.3.15:
+      Successfully uninstalled langchain-core-0.3.15
+Successfully installed langchain-core-0.3.18 langchain-openai-0.2.8 tiktoken-0.8.0
+
+import requests
+from bs4 import BeautifulSoup
+
+def extract_text_from_url(url):
+    response = requests.get(url)
+
+    if response.status_code == 200:
+      soup = BeautifulSoup(response.text, 'html.parser')
+      for script_or_style in soup(["script", "style"]):
+        script_or_style.decompose()
+      texto = soup.get_text(separator= ' ')
+
+      linhas = (line.strip() for line in texto.splitlines())
+      parts = (phrase.strip() for line in linhas for phrase in line.split("  "))
+      texto_limpo = '\n'.join(part for part in parts if part)
+      return texto_limpo
+
+    else:
+      print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+      return None
+
+
+    text = soup.get_text()
+    return text
+
+extract_text_from_url("https://dev.to/siddharthbhalsod/openais-rumored-orion-model-a-new-step-forward-in-ai-2oe6")
+
+     
+"OpenAI's Rumored Orion Model: A New Step Forward in AI? - DEV Community\nSkip to content\nNavigation menu\nSearch\nPowered by\nSearch\nAlgolia\nSearch\nLog in\nCreate account\nDEV Community\nClose\nAdd reaction\nLike\nUnicorn\nExploding Head\nRaised Hands\nFire\nJump to Comments\nSave\nMore...\nCopy link\nCopy link\nCopied to Clipboard\nShare to X\nShare to LinkedIn\nShare to Facebook\nShare to Mastodon\nReport Abuse\nSiddharth Bhalsod\nPosted on\nOct 27\nOpenAI's Rumored Orion Model: A New Step Forward in AI?\n# openai\n# orion\n# chatgpt\n# microsoft\nThe tech world is buzzing with talk about OpenAI's possible next big AI model, nicknamed\nOrion . While OpenAI hasn’t confirmed if Orion exists or shared any official details, online discussions suggest it could be a big step forward in AI. Here, we’ll dive into the rumored features, potential uses, and what Orion might mean for OpenAI’s partnership with Microsoft.\nWhat We Know (Or Think We Know) About Orion\nOrion could be OpenAI’s latest AI model, following GPT-4 and GPT-4o. Although details are purely speculative, some people say Orion could bring better natural language understanding, faster machine learning, and more powerful data processing.\nRumored Highlights of Orion\nMore Processing Power : Some believe Orion could have a lot more computational strength than GPT-4 family models, making it one of the most powerful AI models out there.\nBetter Language Understanding : Orion might come with enhanced natural language processing (NLP), handling context and intent even better than before.\nImproved Learning Abilities : The model may include new deep learning upgrades, letting it learn from large datasets more quickly.\nMultimodal Abilities : Some rumors suggest Orion could handle not just text but also images, audio, and might be video as well, opening doors for more diverse applications.\nHow Orion Could Compare to Previous Models\nHere's how Orion might stack up against older models like GPT-4:\nFeature\nGPT-4\nOrion (Rumored)\nProcessing Speed\nModerate\nPossibly much faster\nNLP Capabilities\nAdvanced\nLikely more advanced\nMultimodal Support\nLimited\nExpected to be extensive\nLearning Efficiency\nHigh\nSpeculated to be higher\nThe table above shows where Orion might bring improvements, especially in processing speed and learning capabilities, making it a possible game-changer in AI.\nPotential Uses of Orion\nIf the rumors hold, Orion could be used in many fields:\nHealthcare : Orion’s deep learning could support diagnostic tools, predict outcomes, and help in research.\nFinance : In finance, Orion could improve fraud detection, risk assessment, and algorithmic trading, making data-driven decisions faster.\nContent Creation : Orion’s advanced NLP could assist with content generation for marketing, journalism, and entertainment, automating repetitive tasks.\nCustomer Service : AI-driven customer service could benefit from Orion’s ability to understand context, giving more accurate responses.\nEducation : Orion might enhance personalized learning, tailoring lessons to fit individual students' needs.\nThe Evolving Partnership Between OpenAI and Microsoft\nMicrosoft has played a big role in scaling OpenAI's models. However, if Orion needs even more computational resources, the partnership might need to expand. Microsoft has made large investments in OpenAI, including integrating its AI into Azure and Microsoft 365 Copilot. Yet, there are whispers about challenges meeting the demand for computing power as models like Orion grow more complex.\nNote: This section is based on industry rumors, not confirmed information.\nWhat Orion Could Mean for the AI Industry\nOrion’s release could shake up the AI industry, impacting competitors like Google DeepMind and Anthropic. Here are some possible effects:\nRising Competition : Orion could set a new bar, pushing other companies to speed up their AI developments.\nEthical and Regulatory Questions : Powerful models like Orion bring up ethical issues, especially around job automation, privacy, and responsible AI usage.\nMarket Changes : Orion might cause shifts in industries relying on data analysis and automation, giving early adopters a leg up in their fields.\nIn Summary\nIf the rumors are true, OpenAI’s Orion could be a big step forward in AI. With possible improvements in language skills, learning speed, and multimodal capabilities, Orion could change industries like healthcare and finance. However, these speculations also bring up important questions about the future of AI, ethics, and OpenAI's partnership with Microsoft.\nDisclaimer : All details about Orion remain unconfirmed, and this article is based on online speculation. We await any official announcements from OpenAI for accurate information.\nTop comments\n(0)\nSubscribe\nPersonal\nTrusted User\nCreate template\nTemplates let you quickly answer FAQs or store snippets for re-use.\nSubmit\nPreview\nDismiss\nCode of Conduct\n•\nReport abuse\nAre you sure you want to hide this comment? It will become hidden in your post, but will still be visible via the comment's\npermalink .\nHide child comments as well\nConfirm\nFor further actions, you may consider blocking this person and/or\nreporting abuse\nRead next\nTech Spotlight: Daily Tech News\nTechDogs -\nAug 21\nC# | Interview Questions and Answers\nHassan BOLAJRAF -\nAug 19\nLoad Data Into Neo4j\npraveenr -\nAug 18\nTop 50 Most-Used Linux & Windows Commands\nMORDECAI ETUKUDO -\nAug 17\nSiddharth Bhalsod\nFollow\nJoined\nDec 15, 2022\nMore from\nSiddharth Bhalsod\nRise and Fall of AI Chatbots\n# ai\n# chatbot\n# chatgpt\n# openai\nReasoning LLMs Outperform Standard LLMs?\n# llm\n# reasoning\n# openai\n# chatgpt\nThe Agentic Era: A New Dawn in AI\n# ai\n# agentic\n# autonomous\n# openai\nThank you to our Diamond Sponsor\nNeon\nfor supporting our community.\nDEV Community\n— A constructive and inclusive social network for software developers. With you every step of your journey.\nHome\nDEV++\nPodcasts\nVideos\nTags\nDEV Help\nForem Shop\nAdvertise on DEV\nDEV Challenges\nDEV Showcase\nAbout\nContact\nFree Postgres Database\nGuides\nSoftware comparisons\nCode of Conduct\nPrivacy Policy\nTerms of use\nBuilt on\nForem\n— the\nopen source\nsoftware that powers\nDEV\nand other inclusive communities.\nMade with love and\nRuby on Rails . DEV Community\n©\n2016 - 2024.\nWe're a place where coders share, stay up-to-date and grow their careers.\nLog in\nCreate account"
+
+from langchain_openai.chat_models.azure import AzureChatOpenAI
+
+client = AzureChatOpenAI(
+    azure_endpoint= "https://oai-dio-bootcamp-dev-eastus-deise01.openai.azure.com/",
+    api_key="C2lZAhik2uwBf4kcRIRt7XWWyUE2W3mjCZLjfCaiWfXvtUpuf6FKJQQJ99AKACHYHv6XJ3w3AAABACOGZsiU",
+    api_version="2024-08-01-preview",
+    deployment_name="gpt-4o-mini",
+    max_retries=0
+)
+def translate_article(text, lang):
+  messages = [
+      ("system", "Você atua como tradutor de textos tecnicos"),
+      ("user", f"Traduza o {text} para o idioma {lang} e responda em markdown")
+
+  ]
+  response = client.invoke(messages)
+  print(response.content)
+  return response.content
+
+translate_article("OpenAI's Rumored Orion Model: A New Step Forward in AI?", "portugues")
+
+
+
+     
+# Modelo Orion da OpenAI: Um Novo Avanço em IA?
+
+O modelo Orion da OpenAI tem gerado rumores e expectativas no campo da inteligência artificial. Este novo modelo promete trazer inovações significativas e melhorias em comparação com as versões anteriores. Especialistas estão ansiosos para ver como o Orion se posicionará em relação a outras tecnologias de IA e quais aplicações práticas ele poderá oferecer.
+
+## Principais características esperadas do modelo Orion:
+
+- **Melhoria na Compreensão de Linguagem Natural**: Espera-se que o Orion tenha uma capacidade aprimorada para entender e gerar texto, tornando a interação com máquinas mais fluida e natural.
+  
+- **Capacidades Multimídia**: Rumores sugerem que o modelo poderá lidar melhor com dados de diferentes formatos, como texto, imagem e áudio, permitindo uma integração mais rica de informações.
+
+- **Eficiência Energética**: Um foco na redução do consumo de energia durante o treinamento e a execução do modelo pode ser uma prioridade, alinhando-se com as crescentes preocupações ambientais.
+
+- **Aprimoramentos em Aprendizado Contínuo**: O Orion pode incluir funcionalidades que permitem que ele aprenda continuamente com novas informações, melhorando sua performance ao longo do tempo.
+
+## Conclusão
+
+Embora os detalhes sobre o modelo Orion ainda sejam escassos, a expectativa é de que ele represente um passo significativo para a OpenAI e para o campo da inteligência artificial como um todo. À medida que mais informações se tornem disponíveis, será interessante observar como este novo modelo se desenvolverá e quais impactos terá em diversas indústrias.
+'# Modelo Orion da OpenAI: Um Novo Avanço em IA?\n\nO modelo Orion da OpenAI tem gerado rumores e expectativas no campo da inteligência artificial. Este novo modelo promete trazer inovações significativas e melhorias em comparação com as versões anteriores. Especialistas estão ansiosos para ver como o Orion se posicionará em relação a outras tecnologias de IA e quais aplicações práticas ele poderá oferecer.\n\n## Principais características esperadas do modelo Orion:\n\n- **Melhoria na Compreensão de Linguagem Natural**: Espera-se que o Orion tenha uma capacidade aprimorada para entender e gerar texto, tornando a interação com máquinas mais fluida e natural.\n  \n- **Capacidades Multimídia**: Rumores sugerem que o modelo poderá lidar melhor com dados de diferentes formatos, como texto, imagem e áudio, permitindo uma integração mais rica de informações.\n\n- **Eficiência Energética**: Um foco na redução do consumo de energia durante o treinamento e a execução do modelo pode ser uma prioridade, alinhando-se com as crescentes preocupações ambientais.\n\n- **Aprimoramentos em Aprendizado Contínuo**: O Orion pode incluir funcionalidades que permitem que ele aprenda continuamente com novas informações, melhorando sua performance ao longo do tempo.\n\n## Conclusão\n\nEmbora os detalhes sobre o modelo Orion ainda sejam escassos, a expectativa é de que ele represente um passo significativo para a OpenAI e para o campo da inteligência artificial como um todo. À medida que mais informações se tornem disponíveis, será interessante observar como este novo modelo se desenvolverá e quais impactos terá em diversas indústrias.'
+
+Url = "https://dev.to/siddharthbhalsod/openais-rumored-orion-model-a-new-step-forward-in-ai-2oe6"
+text = extract_text_from_url(Url)
+article = translate_article(text, "pt-br")
+print(article)
+
+     
